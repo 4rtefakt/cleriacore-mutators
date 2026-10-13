@@ -30,7 +30,7 @@ CASES = {
         expect=[" hp 12/60 "]),
     # Permadeath: the death marks the run; Retry brings the player back, and the mod ends the run again.
     "permadeath": dict(room="S_10/S_1002/S_1002",
-        drive="20:lua=mut Permadeath 1;30:hp=0;200:ok;260:ok;400:lua=st;640:lua=st;700:quit",
+        drive="20:lua=mut Permadeath 1;30:hp=0;200:ok;260:ok;320:lua=st;640:lua=st;700:quit",
         expect=["[death] HP 0", LP + "permadeath: run ", " hp 60/60 ", LP + "permadeath: a dead run was continued, ending it", "[death] HP 0"]),
     # Rules read from the settings at start, and the corner line that lists them (the README's capture).
     "from_settings": dict(room="S_10/S_1002/S_1002",

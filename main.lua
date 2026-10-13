@@ -44,12 +44,12 @@ local function run_id()
     end
     return id
 end
-local kill_at = nil
+local kill_at = nil     -- ticks of play left before a continued dead run is ended (2 seconds)
 local function check_dead()
     local id = on.Permadeath and run_id()
     if id and dead[id] and not kill_at then
         cleria.notice("This run ended in death. Start a new game.", "Permadeath")
-        kill_at = cleria.time() + 2
+        kill_at = 120
     end
 end
 local died = false      -- a Retry raises no event: the tick sees the HP come back
@@ -69,7 +69,8 @@ cleria.events.on("room_enter", function() check_dead() end)
 cleria.events.on("tick", function()
     apply_stats()
     if died and G.in_game() and P.hp() > 0 then died = false check_dead() end
-    if kill_at and cleria.time() >= kill_at and G.in_game() and not G.frozen() then
+    if kill_at and G.in_game() and not G.frozen() then kill_at = kill_at - 1 end
+    if kill_at and kill_at <= 0 then
         kill_at = nil
         if P.hp() > 0 then
             cleria.log("permadeath: a dead run was continued, ending it")
